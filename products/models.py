@@ -19,5 +19,11 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products_images')
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
 
+
+
+
+
+
+
     def __str__(self):
         return self.name
