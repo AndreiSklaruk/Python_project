@@ -1,6 +1,8 @@
 from django.contrib import auth,messages
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
+from products.models import Basket
+from django.contrib.auth.decorators import login_required
 
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 
@@ -33,7 +35,7 @@ def registration(request):
     context = {'form': form}
     return render(request, 'users/registration.html', context)
 
-
+@login_required
 def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(instance=request.user, data=request.POST,files=request.FILES)
@@ -44,7 +46,10 @@ def profile(request):
             print('Form error')
     else:
         form = UserProfileForm(instance=request.user)
-    context = {'title': 'Store - Профиль', 'form': form}
+    context = {'title': 'Store - Профиль',
+               'form': form,
+               'baskets': Basket.objects.filter(user=request.user),# Добавление товаров к корзину именно того пользователя, который их добавил
+               }
     return render(request, 'users/profile.html', context)
 
 def logout (request):
