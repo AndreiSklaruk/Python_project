@@ -5,9 +5,10 @@ from django.conf.urls.static import static
 from django.conf import settings
 from products.views import *
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
+    path('', IndexView.as_view(), name='index'),
     path('products/', include('products.urls', namespace='products')),
     path('users/', include('users.urls', namespace='users')),
 ]
