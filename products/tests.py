@@ -1,3 +1,18 @@
+from http import HTTPStatus
 from django.test import TestCase
+from django.urls import reverse
 
-# Create your tests here.
+
+class IndexViewTest(TestCase):
+    def test_view(self):
+        path = reverse('index')
+        response = self.client.get(reverse('index'))
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.context_data['title'], 'Store ')
+        self.assertTemplateUsed(response, 'products/index.html')
+        self.assertContains(response, 'Store')
+
+
+
+
